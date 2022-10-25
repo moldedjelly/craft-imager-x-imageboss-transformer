@@ -144,6 +144,11 @@ class ImageBoss extends Component implements TransformerInterface
         
         // Add options
         $urlSegments[] = implode(',', $opts);
+
+        // Add sub folder
+        if ($profile->useCloudSourcePath) {
+            $urlSegments[] = $image->volume->subfolder;
+        }
         
         // Add file path
         $urlSegments[] = $image->path;

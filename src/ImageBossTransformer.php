@@ -12,6 +12,9 @@ use craft\base\Plugin;
 
 use spacecatninja\imagebosstransformer\models\Settings;
 use spacecatninja\imagebosstransformer\transformers\ImageBoss;
+use spacecatninja\imagebosstransformer\variables\ImagerVariable;
+
+use craft\web\twig\variables\CraftVariable;
 
 use yii\base\Event;
 
@@ -40,6 +43,15 @@ class ImageBossTransformer extends Plugin
             \spacecatninja\imagerx\ImagerX::EVENT_REGISTER_TRANSFORMERS,
             static function (\spacecatninja\imagerx\events\RegisterTransformersEvent $event) {
                 $event->transformers['imageboss'] = ImageBoss::class;
+            }
+        );
+
+        // Register our variables
+        Event::on(CraftVariable::class, CraftVariable::EVENT_INIT,
+            function(Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('imagebossutil', ImagerVariable::class);
             }
         );
     }
